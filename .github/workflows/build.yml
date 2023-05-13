@@ -57,3 +57,24 @@ jobs:
       
       - name: Push docker Image
         run: docker push bearla/eadca2-app-fe:latest
+
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh
+          
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'bearla/eadca2-app:latest'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          format: 'sarif'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+  
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif' 
