@@ -43,4 +43,4 @@ jobs:
 
       - name: 'npm build'
         run: |
-            npm run build
+            npm run build-and-deploy
