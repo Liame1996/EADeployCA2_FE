@@ -37,10 +37,8 @@ jobs:
         with:
             node-version: '6.x'
         
-      - name: 'npm install'
-        run: |
-            npm install
-
-      - name: 'npm build'
-        run: |
-            npm run build
+      - name: Nodejs setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
