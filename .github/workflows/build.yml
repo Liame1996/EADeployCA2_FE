@@ -39,7 +39,7 @@ jobs:
         
       - name: 'npm install'
         run: |
-            npm install 6.x
+            npm installv
 
       - name: 'npm build'
         run: |
