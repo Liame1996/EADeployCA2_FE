@@ -31,3 +31,16 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+    
+      - name: Install Nodejs for unittest
+        uses: actions/setup-node@v2.1.5
+        with:
+            node-version: '6.x'
+        
+      - name: 'npm install'
+        run: |
+            npm install
+
+      - name: 'npm build'
+        run: |
+            npm run build
