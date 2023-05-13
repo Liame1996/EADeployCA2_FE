@@ -35,11 +35,12 @@ jobs:
       - name: Install Nodejs for unittest
         uses: actions/setup-node@v2.1.5
         with:
-            node-version: '6.x'
+            node-version: '.x'
         
-      - name: Nodejs setup
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - run: npm ci
-      - run: npm test
+      - name: 'npm install'
+        run: |
+            npm install
+
+      - name: 'npm build'
+        run: |
+            npm test
