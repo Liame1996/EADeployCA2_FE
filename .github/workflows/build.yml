@@ -5,6 +5,14 @@ on:
       - master
   pull_request:
     types: [opened, synchronize, reopened]
+
+env:
+    PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+    GKE_CLUSTER: eadca2-app-fe    # Add your cluster name here.
+    GKE_ZONE: europe-west1-c  # Add your cluster zone here.
+    DEPLOYMENT_NAME: gke-test # Add your deployment name here.
+    IMAGE: static-site
+
 jobs:
   sonarcloud:
     name: SonarCloud
@@ -52,6 +60,19 @@ jobs:
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
     
+      # Setup gcloud CLI
+      - uses: google-github-actions/setup-gcloud@1bee7de035d65ec5da40a31f8589e240eba8fde5
+        with:
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ secrets.GKE_PROJECT }}
+
+      # Get the GKE credentials so we can deploy to the cluster    
+      - uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+          credentials: ${{ secrets.GKE_SA_KEY }}
+          
       - name: Build Docker image
         run: docker build -t bearla/eadca2-app-fe .
 
@@ -78,6 +99,12 @@ jobs:
         
       - name: Push docker Image
         run: docker push bearla/eadca2-app-fe:latest
+
+      # Set up kustomize
+      - name: Set up Kustomize
+        run: |-
+          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+          chmod u+x ./kustomize
 
       - name: 'Update Kubernetes manifest'
         run: |
