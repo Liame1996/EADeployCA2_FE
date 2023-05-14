@@ -115,5 +115,5 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: bearla/eadca2-app-fe:latest
-          manifest-file: create-service-manifest.yaml
+          # manifest-file: create-service-manifest.yaml
           # optional: use 'uses: actions/upload-artifact@v2' to upload the YAML artifact
