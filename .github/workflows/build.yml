@@ -54,9 +54,6 @@ jobs:
     
       - name: Build Docker image
         run: docker build -t bearla/eadca2-app-fe .
-      
-      - name: Push docker Image
-        run: docker push bearla/eadca2-app-fe:latest
 
       - name: Install Trivy
         run: |
@@ -78,3 +75,10 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif' 
+        
+      - name: Push docker Image
+        run: docker push bearla/eadca2-app-fe:latest
+
+      - name: 'Update Kubernetes manifest'
+        run: |
+          sed -i "s/latest/${{ github.sha }}/g" create-nodejs-service-manifest.yaml
