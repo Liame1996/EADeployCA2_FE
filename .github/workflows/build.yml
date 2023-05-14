@@ -82,3 +82,10 @@ jobs:
       - name: 'Update Kubernetes manifest'
         run: |
           sed -i "s/latest/${{ github.sha }}/g" create-nodejs-service-manifest.yaml
+
+      - name: Publish YAML artifact
+        uses: docker/metadata-action@v3
+        with:
+          images: bearla/eadca2-app-fe:latest
+          manifest-file: create-service-manifest.yaml
+          # optional: use 'uses: actions/upload-artifact@v2' to upload the YAML artifact
