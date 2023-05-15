@@ -99,6 +99,7 @@ jobs:
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" \
             .
+
       - name: Install Trivy
         run: |
           curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh
@@ -127,7 +128,7 @@ jobs:
       - name: Publish
         run: |-
           docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
-          
+
       # Set up kustomize
       - name: Set up Kustomize
         run: |-
@@ -145,6 +146,7 @@ jobs:
       - name: 'Update Kubernetes manifest'
         run: |
           sed -i "s/latest/${{ github.sha }}/g" create-nodejs-service-manifest.yaml
+          
       - name: Publish YAML artifact
         uses: docker/metadata-action@v3
         with:
