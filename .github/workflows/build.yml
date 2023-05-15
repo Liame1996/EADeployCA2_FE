@@ -49,20 +49,6 @@ jobs:
       - name: 'npm build'
         run: |
             npm run
-      #- name: Login to container registry
-      #  uses: docker/login-action@v2
-      #  with:
-      #      #registry: hub.docker.com
-      #      username: ${{ secrets.DOCKER_USERNAME }}
-      #      password: ${{ secrets.DOCKER_PASSWORD }}
-      
-      #Login to docker CLI in GCR
-      #- name: Configure Docker CLI
-      #  uses: docker/login-action@v1
-      #  with:
-      #    registry: gcr.io
-      #    username: _json_key
-      #    password: ${{ secrets.GCP_SA_KEY }}
 
       #Connect to GCP
       - name: GCP Auth
@@ -88,9 +74,6 @@ jobs:
           #credentials_json: ${{ secrets.GKE_SA_KEY }}
           project_id: ${{ secrets.GKE_PROJECT }}
         
-      #- name: Build Docker image
-      #  run: docker build -t bearla/eadca2-app-fe .
-
       # Build the Docker image
       - name: Build
         run: |-
@@ -121,9 +104,6 @@ jobs:
         with:
           sarif_file: 'trivy-results.sarif' 
         
-      #- name: Push docker Image
-      #  run: docker push bearla/eadca2-app-fe:latest
-
       # Push the Docker image to Google Container Registry
       - name: Publish
         run: |-
@@ -146,7 +126,7 @@ jobs:
       - name: 'Update Kubernetes manifest'
         run: |
           sed -i "s/latest/${{ github.sha }}/g" create-nodejs-service-manifest.yaml
-          
+
       - name: Publish YAML artifact
         uses: docker/metadata-action@v3
         with:
