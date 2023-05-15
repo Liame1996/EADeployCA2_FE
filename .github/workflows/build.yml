@@ -61,12 +61,12 @@ jobs:
       #      password: ${{ secrets.DOCKER_PASSWORD }}
       
       #Login to docker CLI in GCR
-      - name: Configure Docker CLI
-        uses: docker/login-action@v1
-        with:
-          registry: gcr.io
-          username: _json_key
-          password: ${{ secrets.GCP_SA_KEY }}
+      #- name: Configure Docker CLI
+      #  uses: docker/login-action@v1
+      #  with:
+      #    registry: gcr.io
+      #    username: _json_key
+      #    password: ${{ secrets.GCP_SA_KEY }}
 
       #Connect to GCP
       - name: GCP Auth
