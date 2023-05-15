@@ -129,16 +129,9 @@ jobs:
           docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
       # Set up kustomize
       - name: Set up Kustomize
-        uses: multani/action-setup-kustomize@v1
-        with:
-          version: 4.0.2
-
-      - run: kustomize version
-
-      - name: Install Kustomize
-        uses: multani/action-setup-kustomize@v1
-        with:
-          version: 4.5.4
+        run: |-
+            curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+            chmod u+x ./kustomize
 
       # Deploy docker image to GKE Cluster
       - name: Deploy
@@ -147,6 +140,7 @@ jobs:
           ./kustomize build . | kubectl apply -f -
             kubectl rollout status deployment/$DEPLOYMENT_NAME
             kubectl get services -o wide
+
       - name: 'Update Kubernetes manifest'
         run: |
           sed -i "s/latest/${{ github.sha }}/g" create-nodejs-service-manifest.yaml
