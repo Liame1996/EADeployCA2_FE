@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: github-actions-gke
+  name: eadca2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: github-actions-gke
+      app: eadca2
   template:
     metadata:
       labels:
-        app: github-actions-gke
+        app: eadca2
     spec:
       containers:
         - name: app
