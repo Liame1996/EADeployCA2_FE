@@ -57,7 +57,7 @@ jobs:
         uses: google-github-actions/get-gke-credentials@main
         with:
             cluster_name: production-cluster
-            location: us-east1
+            location: europe-west1-c
             credentials: ${{ secrets.GCP_SECRET }}
         
       - id: get-pods
@@ -75,7 +75,7 @@ jobs:
         run: |
             helm repo add stevehipwell https://stevehipwell.github.io/helm-charts/
             helm install my-istio-operator stevehipwell/istio-operator --version 1.2.2
-            
+
       - id: get-pods-after-bootstrap
         if: github.ref == 'refs/heads/master' && github.event_name == 'push' 
         run: kubectl get pods -A
