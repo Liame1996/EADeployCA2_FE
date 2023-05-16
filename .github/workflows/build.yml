@@ -9,7 +9,7 @@ env:
     GKE_CLUSTER: eadca2-app-fe    # Add your cluster name here.
     GKE_ZONE: europe-west1-c  # Add your cluster zone here.
     DEPLOYMENT_NAME: eadca2 # Add your deployment name here.
-    IMAGE: eadca2-app
+    IMAGE: eadca2-app-be
 
 jobs:
   sonarcloud:
